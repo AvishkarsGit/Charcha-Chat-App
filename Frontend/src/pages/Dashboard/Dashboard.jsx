@@ -1,32 +1,32 @@
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
-import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
+  // useSidebar,
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { NavUser } from "./NavUser";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { authService } from "@/services/auth/AuthService";
-import { useAuth } from "@/context/useAuth";
+import { UserRoundPlus } from "lucide-react";
+
+import { ChatDialog } from "@/components/dialogs/ChatDialog";
+import Chat from "../Chat/Chat";
+import { Outlet } from "react-router";
+import { useAuth } from "@/context/auth/useAuth";
+import { useChat } from "@/context/chat/useChat";
 export default function Dashboard() {
   const { user, setUser } = useAuth();
+  const [chatOpen, setOnChatOpen] = useState(false);
+  // const { isMobile } = useSidebar();
+
+  const { selectedChat } = useChat();
 
   useEffect(() => {
     if (user !== null) return;
     authService
       .profile()
       .then((res) => {
-        console.log("data:", res.data);
-
         setUser(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -39,32 +39,24 @@ export default function Dashboard() {
         <header className="flex h-14 shrink-0 items-center gap-2">
           <div className="flex flex-1 items-center gap-2 px-3">
             <SidebarTrigger />
-            {/* <Separator
-              orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
-            /> */}
-            {/* <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbPage className="line-clamp-1">
-                    Project Management & Task Tracking
-                  </BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb> */}
+          </div>
+          <div
+            className="cursor-pointer bg-blue-500 hover:bg-blue-800 p-1.5 rounded-xl text-white"
+            onClick={() => setOnChatOpen(true)}
+          >
+            <UserRoundPlus />
           </div>
           <div className="ml-auto px-3">
             <NavUser user={user} />
           </div>
+          {/* chat dialog */}
+          <ChatDialog open={chatOpen} onOpenChange={setOnChatOpen} />
         </header>
-        {/* <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          <div className="bg-muted/50 min-h-screen flex-1 rounded-xl md:min-h-min">
+            {!selectedChat ? <h1>Chat app</h1> : <Chat />}
           </div>
-          <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
-        </div> */}
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

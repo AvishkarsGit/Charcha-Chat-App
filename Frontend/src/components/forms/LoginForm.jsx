@@ -17,17 +17,18 @@ import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router";
 import { useState } from "react";
 import { authService } from "@/services/auth/AuthService";
-import { Verification } from "@/components/dialogs/Verification";
-import {
-  DialogContent,
-  Dialog,
-  DialogTrigger,
-  DialogTitle,
-  DialogDescription,
-} from "../ui/dialog";
+// import { Verification } from "@/components/dialogs/Verification";
+// import {
+//   DialogContent,
+//   Dialog,
+//   DialogTrigger,
+//   DialogTitle,
+//   DialogDescription,
+// } from "../ui/dialog";
 import { MyAlertDialog } from "@/components/dialogs/AlertDialog";
-import { useAuth } from "@/context/useAuth";
+
 import { toast } from "react-toastify";
+import { useAuth } from "@/context/auth/useAuth";
 
 export function LoginForm({ className, ...props }) {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -37,6 +38,7 @@ export function LoginForm({ className, ...props }) {
 
   const navigate = useNavigate();
   const { setLoggedIn } = useAuth();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

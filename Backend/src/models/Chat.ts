@@ -1,10 +1,10 @@
-import mongoose, { model, Schema } from "mongoose";
-
-const chatSchema = new Schema(
+import mongoose, { Schema, model } from "mongoose";
+import { ChatInterface } from "../interfaces/ChatInterface";
+const chatSchema = new Schema<ChatInterface>(
   {
     chatName: {
       type: String,
-      required: true,
+      trim: true,
     },
     isGroupChat: {
       type: Boolean,
@@ -32,4 +32,5 @@ const chatSchema = new Schema(
     },
   },
 );
-export default model("Chat",chatSchema);
+
+export default model<ChatInterface>("Chat", chatSchema);

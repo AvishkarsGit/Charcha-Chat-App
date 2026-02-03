@@ -5,6 +5,7 @@ export class UserValidator {
     return z.object({
       name: z.string().trim().min(4, "name should be at least 4 character"),
       email: z.email(),
+    //  photo: z.string().trim(),
       password: z
         .string()
         .trim()

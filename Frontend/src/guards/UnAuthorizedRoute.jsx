@@ -1,5 +1,5 @@
 import { Navigate } from "react-router";
-import { useAuth } from "../context/auth/UseAuth";
+import { useAuth } from "@/context/auth/UseAuth";
 
 export const UnAuthorizedRoute = ({ children }) => {
   const { loading, isLoggedIn } = useAuth();

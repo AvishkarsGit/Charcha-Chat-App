@@ -16,7 +16,6 @@ const userSchema: Schema<UserInterface> = new Schema({
   },
   photo: {
     type: String,
-    required: true,
   },
   isVerified: {
     type: Boolean,

@@ -6,6 +6,9 @@ import mongoose from "mongoose";
 import { getEnvironmentsVariable } from "./environments/environment";
 import UserRouter from "./routers/UserRouter";
 import cookieParser from "cookie-parser";
+import ChatRouter from "./routers/ChatRouter";
+import MessageRouter from "./routers/MessageRouter";
+import { Server as server } from "socket.io";
 
 export class Server {
   public app = express();
@@ -24,12 +27,23 @@ export class Server {
     this.configJSONandURL();
   }
 
+  configSocket(io: server) {
+    io.on("connection", (socket) => {
+      socket.on("setup", (userData) => {
+        socket.join(userData._id);
+        console.log(userData._id);
+
+        socket.emit("connected");
+      });
+    });
+  }
+
   allowCors() {
     this.app.use(
       cors({
         origin: "http://localhost:5173",
         credentials: true,
-      })
+      }),
     );
   }
 
@@ -42,6 +56,8 @@ export class Server {
 
   setRoutes() {
     this.app.use("/api/user", UserRouter);
+    this.app.use("/api/chat", ChatRouter);
+    this.app.use("/api/message", MessageRouter);
   }
 
   configJSONandURL() {

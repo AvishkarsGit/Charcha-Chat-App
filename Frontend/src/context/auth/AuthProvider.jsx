@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
-import { Api } from "../../services/api/ApiService";
-
+import { Api } from "@/services/api/Api";
 export const AuthProvider = ({ children }) => {
-  const [loading, setLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [loader, setLoader] = useState(true);
+  const [user, setUser] = useState(null);
+
 
   useEffect(() => {
     fetchUser();
@@ -12,28 +13,28 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      setLoading(true);
-      const response = await Api.get("/user/profile");
-
+      const response = await Api.get("/user/me");
       if (response?.data?.success) {
-        setIsLoggedIn(true);
+        setUser(response?.data?.data);
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
       }
-    } catch (error) {
-      setIsLoggedIn(false);
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      setLoggedIn(false);
     } finally {
-      setLoading(false);
+      setLoader(false);
     }
   };
 
-  const values = {
+  const value = {
     isLoggedIn,
-    setIsLoggedIn,
-    loading,
+    loader,
+    setLoggedIn,
+    user,
+    setUser,
+    setLoader,
   };
-  return (
-    <AuthContext.Provider value={values}>
-      {!loading && children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -8,6 +8,7 @@ export class UserController {
   static async signup(req, res, next) {
     try {
       const { name, email, password } = req.body;
+      console.log(name,email,password);
 
       //check if user is already exist
       const isUser = await User.findOne({ email }).select("email");
@@ -339,7 +340,7 @@ export class UserController {
       const keyword = escapeRegex(search.trim());
 
       const users = await User.find({
-        _id: { $ne: req.user.id },
+       _id: { $ne: req.user.id },
         $or: [
           { name: { $regex: keyword, $options: "i" } },
           { email: { $regex: keyword, $options: "i" } },

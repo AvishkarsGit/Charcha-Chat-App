@@ -12,6 +12,7 @@ import {
 import { authService } from "@/services/auth/AuthService";
 import { Verification } from "./Verification";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export function MyAlertDialog({ open, onOpenChange, email }) {
   const [verificationOpen, setVerificationOpen] = useState(false);
@@ -22,6 +23,7 @@ export function MyAlertDialog({ open, onOpenChange, email }) {
       const response = await authService.sendVerificationEmail(email);
       if (response?.data?.success) {
         setVerificationOpen(true);
+        toast.success("Email sent successfully");
       }
     } catch (error) {
       console.log("error", error?.response);

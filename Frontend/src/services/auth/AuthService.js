@@ -1,5 +1,6 @@
 import { Api } from "../api/Api";
 
+
 class AuthService {
   constructor() {
     Api.interceptors.response.use(
@@ -22,7 +23,7 @@ class AuthService {
   }
 
   async signup(data) {
-    return await Api.post("/user/signup", data);
+    return await Api.post("/user/register", data);
   }
 
   async login(data) {
@@ -47,6 +48,10 @@ class AuthService {
 
   async logout() {
     return await Api.post("/user/logout");
+  }
+
+  async search(data) {
+    return await Api.get(`/user/search?search=${data}`);
   }
 }
 

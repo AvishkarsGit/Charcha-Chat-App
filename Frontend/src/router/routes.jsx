@@ -2,9 +2,10 @@ import { createBrowserRouter } from "react-router";
 import App from "../App";
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
+import Dashboard from "@/pages/Dashboard/Dashboard";
+import Chat from "@/pages/Chat/Chat";
 import { ProtectedRoute } from "@/guards/ProtectedRoute";
 import { PublicRoute } from "@/guards/PublicRoute";
-import Dashboard from "@/pages/Dashboard/Dashboard";
 export const routes = createBrowserRouter([
   {
     path: "/",
@@ -13,6 +14,12 @@ export const routes = createBrowserRouter([
         <Dashboard />
       </ProtectedRoute>
     ),
+    children: [
+      {
+        path: "/chat",
+        element: <Chat />,
+      },
+    ],
   },
   {
     path: "/login",

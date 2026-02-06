@@ -79,9 +79,9 @@ export function ChatDialog({ open, onOpenChange }) {
       <AlertDialog open={open} onOpenChange={onOpenChange}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Start Chat</AlertDialogTitle>
+            <AlertDialogTitle>Create Chat</AlertDialogTitle>
             <AlertDialogDescription>
-              Start chatting by searching user{" "}
+              Create new by searching user
             </AlertDialogDescription>
             <Input
               id="name"

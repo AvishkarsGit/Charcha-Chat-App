@@ -4,57 +4,10 @@ import {
   SidebarGroupContent,
   SidebarInput,
 } from "@/components/ui/sidebar";
-// import { useAuth } from "@/context/useAuth";
-// import { authService } from "@/services/auth/AuthService";
 import { Search } from "lucide-react";
-import {
-  //useEffect,
-   useState } from "react";
-export function SearchForm({ ...props }) {
-  const [search, setSearch] = useState("");
-  // const { setUsers, setLoader } = useAuth();
-
-  // useEffect(() => {
-  //   if (!search.trim()) {
-  //     setUsers([]);
-  //     setLoader(false);
-  //     return;
-  //   }
-  //   setLoader(true);
-
-  //   const timeout = setTimeout(async () => {
-  //     try {
-  //       const response = await authService.search(search);
-  //       if (response?.data?.success) {
-  //         setUsers(response?.data?.data);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     } finally {
-  //       setLoader(false);
-  //     }
-  //   }, 500);
-
-  //   return () => clearTimeout(timeout);
-  // }, [search]);
-
-  // const handleSearch = async (e) => {
-  //   try {
-  //     e.preventDefault();
-  //     const data = e.target.value;
-  //     setSearch(data);
-  //     const response = await authService.search(data);
-  //     if (response?.data?.success) {
-  //       setUsers(response?.data?.data);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setLoader(false);
-  //   }
-  // };
+export function SearchForm({ search, setSearch }) {
   return (
-    <form {...props}>
+    <form>
       <SidebarGroup className="py-0">
         <SidebarGroupContent className="relative">
           <Label htmlFor="search" className="sr-only">

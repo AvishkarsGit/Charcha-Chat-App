@@ -3,7 +3,7 @@ import App from "../App";
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import Dashboard from "@/pages/Dashboard/Dashboard";
-import Chat from "@/pages/Chat/Chat";
+import Chat from "@/pages/Chat/ChatContainer/Chat";
 import { ProtectedRoute } from "@/guards/ProtectedRoute";
 import { PublicRoute } from "@/guards/PublicRoute";
 export const routes = createBrowserRouter([

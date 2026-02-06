@@ -29,11 +29,29 @@ export class Server {
 
   configSocket(io: server) {
     io.on("connection", (socket) => {
-      socket.on("setup", (userData) => {
-        socket.join(userData._id);
-        console.log(userData._id);
-
+      console.log("connected to socket.io");
+      socket.on("setup", (user) => {
+        socket.join(user?._id);
         socket.emit("connected");
+      });
+
+      socket.on("join chat", (chatId) => {
+        socket.join(chatId);
+      });
+
+      socket.on("new message", (message) => {
+        message.chat.users.forEach((user:any) => {
+          if (user?._id === message.sender?._id) return;
+          socket.to(user._id).emit("message received", message);
+        });
+      });
+
+      socket.on("typing", (chatId) => {
+        socket.in(chatId).emit("typing");
+      });
+
+      socket.on("stop typing", (chatId) => {
+        socket.in(chatId).emit("stop typing");
       });
     });
   }
@@ -49,7 +67,7 @@ export class Server {
 
   connectToDatabase() {
     mongoose
-      .connect(getEnvironmentsVariable().mongo_uri)
+      .connect(getEnvironmentsVariable().mongo_uri!)
       .then(() => console.log(`connected to db`))
       .catch((err) => console.log(err));
   }
@@ -74,7 +92,7 @@ export class Server {
     });
   }
   handleErrors() {
-    this.app.use((error, req, res, next) => {
+    this.app.use((error:any, req:any, res:any, next:any) => {
       const errorStatus = req.errorStatus || 500;
       res.status(errorStatus).json({
         message: error.message || "Something went wrong, please try again",

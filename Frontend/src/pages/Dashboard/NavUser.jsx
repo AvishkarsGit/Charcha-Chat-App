@@ -5,7 +5,6 @@ import {
   CreditCard,
   LogOut,
   Sparkles,
-  UserRoundPen,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -23,29 +22,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { toast } from "react-toastify";
-import { authService } from "@/services/auth/AuthService";
-import { useNavigate } from "react-router";
-import { useAuth } from "@/context/auth/UseAuth";
 export function NavUser({ user }) {
   const { isMobile } = useSidebar();
-  const { setLoggedIn } = useAuth();
-  const navigate = useNavigate();
-  const handleLogout = async () => {
-    try {
-      const response = await authService.logout();
-      if (response?.data?.success) {
-        navigate("/login", { replace: true });
-        setLoggedIn(false);
-        toast.success("Logout success", {
-          delay: 1000,
-        });
-      }
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
-    }
-  };
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -53,14 +31,17 @@ export function NavUser({ user }) {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground md:h-8 md:p-0"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user?.avatar} alt={user?.name} />
-                <AvatarFallback className="rounded-lg">
-                  {user?.name?.charAt(0)}
-                </AvatarFallback>
+                <AvatarImage src={user?.photo} alt={user?.name} />
+                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-medium">{user?.name}</span>
+                <span className="truncate text-xs">{user?.email}</span>
+              </div>
+              <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -72,10 +53,8 @@ export function NavUser({ user }) {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user?.avatar} alt={user?.name} />
-                  <AvatarFallback className="rounded-lg">
-                    {user?.name?.charAt(0)}
-                  </AvatarFallback>
+                  <AvatarImage src={user?.photo} alt={user?.name} />
+                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user?.name}</span>
@@ -86,19 +65,27 @@ export function NavUser({ user }) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
+                <Sparkles />
+                Upgrade to Pro
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
+                <BadgeCheck />
+                Account
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <CreditCard />
+                Billing
+              </DropdownMenuItem>
+              <DropdownMenuItem>
                 <Bell />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-
             <DropdownMenuItem>
-              <UserRoundPen />
-              Profile
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-
-            <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>

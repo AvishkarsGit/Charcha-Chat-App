@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import ChatRouter from "./routers/ChatRouter";
 import MessageRouter from "./routers/MessageRouter";
 import { Server as server } from "socket.io";
+import { chatSocket } from "./utils/Socket";
 
 export class Server {
   public app = express();
@@ -28,32 +29,7 @@ export class Server {
   }
 
   configSocket(io: server) {
-    io.on("connection", (socket) => {
-      console.log("connected to socket.io");
-      socket.on("setup", (user) => {
-        socket.join(user?._id);
-        socket.emit("connected");
-      });
-
-      socket.on("join chat", (chatId) => {
-        socket.join(chatId);
-      });
-
-      socket.on("new message", (message) => {
-        message.chat.users.forEach((user:any) => {
-          if (user?._id === message.sender?._id) return;
-          socket.to(user._id).emit("message received", message);
-        });
-      });
-
-      socket.on("typing", (chatId) => {
-        socket.in(chatId).emit("typing");
-      });
-
-      socket.on("stop typing", (chatId) => {
-        socket.in(chatId).emit("stop typing");
-      });
-    });
+    chatSocket(io);
   }
 
   allowCors() {
@@ -92,7 +68,7 @@ export class Server {
     });
   }
   handleErrors() {
-    this.app.use((error:any, req:any, res:any, next:any) => {
+    this.app.use((error: any, req: any, res: any, next: any) => {
       const errorStatus = req.errorStatus || 500;
       res.status(errorStatus).json({
         message: error.message || "Something went wrong, please try again",

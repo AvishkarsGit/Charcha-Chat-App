@@ -4,19 +4,19 @@ export const NavItems = {
   navMain: [
     {
       title: "Chats",
-      url: "#",
+      url: "/",
       icon: MessageCircleMore,
       isActive: true,
     },
     {
       title: "Groups",
-      url: "#",
+      url: "/groups",
       icon: UsersRound,
       isActive: true,
     },
     {
       title: "Meetings",
-      url: "#",
+      url: "/meetings",
       icon: Presentation,
       isActive: true,
     },

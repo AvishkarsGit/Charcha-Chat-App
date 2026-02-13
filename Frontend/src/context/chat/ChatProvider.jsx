@@ -7,6 +7,7 @@ export const ChatProvider = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedChat, setSelectedChat] = useState(null);
   const [chats, setChats] = useState([]);
+  const [filteredChats, setFilteredChats] = useState([]);
   const [chatLoading, setChatLoading] = useState(true);
 
   const { isLoggedIn, loader } = useAuth();
@@ -37,6 +38,8 @@ export const ChatProvider = ({ children }) => {
     chatLoading,
     selectedChat,
     setSelectedChat,
+    filteredChats,
+    setFilteredChats,
   };
   return <ChatContext.Provider value={values}>{children}</ChatContext.Provider>;
 };

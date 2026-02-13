@@ -1,11 +1,13 @@
 import { createBrowserRouter } from "react-router";
-import App from "../App";
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import Dashboard from "@/pages/Dashboard/Dashboard";
 import Chat from "@/pages/Chat/ChatContainer/Chat";
 import { ProtectedRoute } from "@/guards/ProtectedRoute";
 import { PublicRoute } from "@/guards/PublicRoute";
+import Groups from "@/pages/Groups/Groups";
+import Meetings from "@/pages/Meetings/Meetings";
+import LoadChats from "@/components/users/LoadChats";
 export const routes = createBrowserRouter([
   {
     path: "/",
@@ -16,8 +18,16 @@ export const routes = createBrowserRouter([
     ),
     children: [
       {
-        path: "/chat",
-        element: <Chat />,
+        path: "/",
+        element: <LoadChats />,
+      },
+      {
+        path: "groups",
+        element: <Groups />,
+      },
+      {
+        path: "meetings",
+        elements: <Meetings />,
       },
     ],
   },

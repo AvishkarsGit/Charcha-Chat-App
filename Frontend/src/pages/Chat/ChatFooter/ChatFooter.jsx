@@ -14,7 +14,7 @@ function ChatFooter({ message, typingHandler, handleSendMessage }) {
         />
         <Button
           size="icon"
-          className="rounded-full"
+          className="rounded-full bg-green-600 hover:bg-green-800 cursor-pointer"
           onClick={handleSendMessage}
         >
           ➤

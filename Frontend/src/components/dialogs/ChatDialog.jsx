@@ -14,8 +14,8 @@ import { authService } from "@/services/auth/AuthService";
 import { Skeleton } from "../ui/skeleton";
 import { Card } from "../ui/card";
 import { Avatar, AvatarImage } from "../ui/avatar";
-import LoadUser from "../Users/LoadUser";
-import UserSkeleton from "../Users/UserSkeleton";
+import LoadUser from "../users/LoadUser";
+import UserSkeleton from "../users/UserSkeleton";
 // import { useChat } from "@/context/chat/useChat";//
 import { chatService } from "@/services/chat/ChatService";
 import { toast } from "react-toastify";
@@ -66,7 +66,7 @@ export function ChatDialog({ open, onOpenChange }) {
         });
       } else {
         //new chat created
-        setChats([...chats,...data.data]);
+        setChats([...chats, ...data.data]);
         toast.success("Chat created successfully", {
           delay: 2000,
         });

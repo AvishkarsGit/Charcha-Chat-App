@@ -13,10 +13,12 @@ import {
 import { NavUser } from "@/pages/Dashboard/NavUser";
 import { MessageCircleMore } from "lucide-react";
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 
 function SidebarMain({ data, user }) {
   const [activeItem, setActiveItem] = useState(data.navMain[0]);
   const { setOpen } = useSidebar();
+  const navigate = useNavigate();
   return (
     <Sidebar
       collapsible="none"
@@ -27,7 +29,7 @@ function SidebarMain({ data, user }) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
               <div>
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                <div className="bg-green-500 text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <MessageCircleMore className="size-4" />
                 </div>
               </div>
@@ -49,6 +51,7 @@ function SidebarMain({ data, user }) {
                     onClick={() => {
                       setActiveItem(item);
                       setOpen(true);
+                      navigate(item?.url, { replace: true });
                     }}
                     isActive={activeItem?.title === item.title}
                     className="px-2.5 md:px-2"

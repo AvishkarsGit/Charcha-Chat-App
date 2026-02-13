@@ -37,7 +37,18 @@ export function LoginForm({ className, ...props }) {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  const { setLoggedIn } = useAuth();
+  const { setLoggedIn, setUser } = useAuth();
+
+  const setUserData = async () => {
+    try {
+      const response = await authService.profile();
+      if (response?.data?.success) {
+        setUser(response?.data?.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,6 +57,8 @@ export function LoginForm({ className, ...props }) {
       if (response?.data?.success) {
         setLoggedIn(true);
         toast.success("Logged in successfully..");
+        //set user to user data
+        setUserData();
         navigate("/", { replace: true });
       } else if (response?.data?.code === "EMAIL_NOT_VERIFIED") {
         alert("Email not verified");

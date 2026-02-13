@@ -4,7 +4,9 @@ import { useChat } from "@/context/chat/useChat";
 import { AppSidebar } from "./AppSidebar";
 import NoChatSelected from "../Chat/NoChatSelected/NoChatSelected";
 export default function Dashboard() {
-  const { selectedChat } = useChat();
+
+   const { selectedChat } = useChat();
+
 
   return (
     <SidebarProvider

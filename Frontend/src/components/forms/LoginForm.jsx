@@ -52,21 +52,31 @@ export function LoginForm({ className, ...props }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await authService.login({ email, password });
+
       if (response?.data?.success) {
         setLoggedIn(true);
         toast.success("Logged in successfully..");
-        //set user to user data
         setUserData();
         navigate("/", { replace: true });
       } else if (response?.data?.code === "EMAIL_NOT_VERIFIED") {
-        alert("Email not verified");
-        //open verification modal
+        toast.warning("Please verify your email first");
         setDialogOpen(true);
+      } else {
+        toast.error(response?.data?.message || "Login failed");
       }
     } catch (error) {
-      alert(error?.response?.data?.message);
+      if (error.response) {
+        const message =
+          error.response.data?.message || "Invalid email or password";
+        toast.error(message);
+      } else if (error.request) {
+        toast.error("Network error. Please check your connection.");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     }
   };
   return (

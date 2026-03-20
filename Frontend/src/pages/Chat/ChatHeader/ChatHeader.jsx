@@ -3,9 +3,10 @@ import VideoCallDialog from "@/components/dialogs/VideoCallDialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useAuth } from "@/context/auth/useAuth";
+import { useChat } from "@/context/chat/useChat";
 import { getSocket } from "@/hooks/useSocket";
 import { peerService } from "@/services/webRtc/PeerService";
-import { Video } from "lucide-react";
+import { EllipsisVertical, Video } from "lucide-react";
 import React, { useCallback, useEffect, useState } from "react";
 
 function ChatHeader({ selectedUser }) {
@@ -16,6 +17,7 @@ function ChatHeader({ selectedUser }) {
   const [callerId, setCallerId] = useState(null); // Track who is calling
 
   const { user } = useAuth();
+  const { selectedChat } = useChat();
 
   const handleCall = async () => {
     const socket = getSocket();
@@ -151,20 +153,31 @@ function ChatHeader({ selectedUser }) {
           <SidebarTrigger />
           <Avatar>
             <AvatarImage src={selectedUser?.avatar} />
-            <AvatarFallback>{selectedUser?.name?.charAt(0)}</AvatarFallback>
+            <AvatarFallback>
+              {selectedChat?.isGroupChat
+                ? selectedChat?.chatName?.charAt(0)
+                : selectedUser?.name?.charAt(0)}
+            </AvatarFallback>
           </Avatar>
           <div>
-            <h2 className="font-semibold">{selectedUser?.name}</h2>
-            <p className="text-sm text-green-600">online</p>
+            <h2 className="font-semibold">
+              {selectedChat?.isGroupChat
+                ? selectedChat?.chatName
+                : selectedUser?.name}
+            </h2>
           </div>
         </div>
 
-        <button
-          onClick={handleCall}
-          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-        >
-          <Video className="w-5 h-5" />
-        </button>
+        {!selectedChat?.isGroupChat ?
+          <button
+            onClick={handleCall}
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          >
+            <Video className="w-5 h-5" />
+          </button>
+          : <button className="p-2 hover:bg-gray-100 rounded-full transition-colors cursor-pointer">
+            <EllipsisVertical className="w-5 h-5" />
+          </button>}
       </div>
 
       <IncomingCallWindow

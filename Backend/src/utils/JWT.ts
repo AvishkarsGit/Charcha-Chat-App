@@ -7,13 +7,13 @@ export class JWT {
     return hashedPassword;
   }
 
-  static generateAccessToken(payload) {
-    return jwt.sign(payload, getEnvironmentsVariable().access_token_secrete, {
+  static generateAccessToken(payload: any) {
+    return jwt.sign(payload, getEnvironmentsVariable().access_token_secrete!, {
       expiresIn: "15m",
     });
   }
-  static generateRefreshToken(payload) {
-    return jwt.sign(payload, getEnvironmentsVariable().refresh_token_secrete, {
+  static generateRefreshToken(payload: any) {
+    return jwt.sign(payload, getEnvironmentsVariable().refresh_token_secrete!, {
       expiresIn: "10h",
     });
   }

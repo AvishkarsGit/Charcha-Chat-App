@@ -10,8 +10,6 @@ import React, { useMemo, useState } from "react";
 import { Outlet } from "react-router";
 
 function SidebarSub({ chats }) {
-  // const { isMobile } = useSidebar();
-
   const [search, setSearch] = useState("");
 
   const filtered = useMemo(() => {
@@ -31,6 +29,7 @@ function SidebarSub({ chats }) {
       return chatNameMatch || userNameMatch;
     });
   }, [search, chats]);
+
 
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">

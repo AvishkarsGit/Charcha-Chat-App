@@ -4,11 +4,12 @@ import { Utility } from "../utils/Utility";
 import User from "../models/User";
 import { NodeMailer } from "../utils/NodeMailer";
 import { getEnvironmentsVariable } from "../environments/environment";
+import { compare } from "bcrypt";
 export class UserController {
   static async signup(req, res, next) {
     try {
       const { name, email, password } = req.body;
-      console.log(name,email,password);
+      console.log(name, email, password);
 
       //check if user is already exist
       const isUser = await User.findOne({ email }).select("email");
@@ -74,7 +75,11 @@ export class UserController {
       const hashedPass = user.password;
 
       //compare password
-      await JWT.comparePassword(password, hashedPass);
+      try {
+        await JWT.comparePassword(password, hashedPass);
+      } catch (error) {
+        throw error;
+      }
 
       //payload
       const payload = {
@@ -340,7 +345,7 @@ export class UserController {
       const keyword = escapeRegex(search.trim());
 
       const users = await User.find({
-       _id: { $ne: req.user.id },
+        _id: { $ne: req.user.id },
         $or: [
           { name: { $regex: keyword, $options: "i" } },
           { email: { $regex: keyword, $options: "i" } },

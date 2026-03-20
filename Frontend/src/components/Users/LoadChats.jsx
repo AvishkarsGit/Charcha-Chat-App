@@ -27,7 +27,9 @@ function LoadChats() {
           return (
             <div
               key={chat?._id}
-              onClick={() => setSelectedChat(chat)}
+              onClick={() => {
+                setSelectedChat(chat);
+              }}
               className={`flex items-center gap-4 p-2 rounded-xl ${selectedChat?._id === chat?._id ? "bg-gray-200" : ""} hover:bg-gray-200 transition cursor-pointer m-2`}
             >
               <Avatar className="h-12 w-12">

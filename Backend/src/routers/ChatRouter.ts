@@ -40,7 +40,7 @@ class ChatRouter {
       ChatController.createGroup,
     );
   }
-  putRoutes() {}
+  putRoutes() { }
   patchRoutes() {
     //rename group name
     this.router.patch(
@@ -56,13 +56,13 @@ class ChatRouter {
       ChatController.addNewMember,
     );
 
-    //add new member into the group
+    //remove member from the group
     this.router.patch(
       "/remove-member",
       GlobalMiddleware.auth,
       ChatController.removeMember,
     );
   }
-  deleteRoutes() {}
+  deleteRoutes() { }
 }
 export default new ChatRouter().router;

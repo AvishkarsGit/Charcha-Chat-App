@@ -3,7 +3,7 @@ import Chat from "../models/Chat";
 import User from "../models/User";
 
 export class ChatController {
-  static async createChat(req, res, next) {
+  static async createChat(req: any, res: any, next: any) {
     try {
       const { receiverId } = req.body;
 
@@ -48,7 +48,7 @@ export class ChatController {
     }
   }
 
-  static async fetchAllChats(req, res, next) {
+  static async fetchAllChats(req: any, res: any, next: any) {
     try {
       const userId = req.user.id;
 
@@ -82,7 +82,7 @@ export class ChatController {
     }
   }
 
-  static async fetchUser(req, res, next) {
+  static async fetchUser(req: any, res: any, next: any) {
     try {
       const { userId } = req.query;
 
@@ -99,7 +99,7 @@ export class ChatController {
     }
   }
 
-  static async createGroup(req, res, next) {
+  static async createGroup(req: any, res: any, next: any) {
     try {
       const { name, users } = req.body;
 
@@ -162,7 +162,7 @@ export class ChatController {
     }
   }
 
-  static async renameGroup(req, res, next) {
+  static async renameGroup(req: any, res: any, next: any) {
     try {
       const { chatId, groupName } = req.body;
       if (!chatId || !groupName)
@@ -191,7 +191,7 @@ export class ChatController {
     }
   }
 
-  static async addNewMember(req, res, next) {
+  static async addNewMember(req: any, res: any, next: any) {
     try {
       const { chatId, memberId } = req.body;
 
@@ -222,7 +222,7 @@ export class ChatController {
       next(error);
     }
   }
-  static async removeMember(req, res, next) {
+  static async removeMember(req: any, res: any, next: any) {
     try {
       const { chatId, memberId } = req.body;
 

@@ -1,17 +1,17 @@
-import { getEnvironmentsVariable } from "../environments/environment";
+
+import { env } from "../environments/environment";
 import { JWT } from "../utils/JWT";
-import jwt from "jsonwebtoken";
 
 export class GlobalMiddleware {
-  static checkError(schema, property = "body") {
-    return (req, res, next) => {
+  static checkError(schema: any, property = "body") {
+    return (req: any, res: any, next: any) => {
       const result = schema.safeParse(req[property]);
 
       if (!result.success) {
         return res.status(400).json({
           success: false,
           message: "Validation failed",
-          errors: result.error.issues.map((err) => ({
+          errors: result.error.issues.map((err: any) => ({
             field: err.path.join("."),
             message: err.message,
           })),
@@ -24,7 +24,7 @@ export class GlobalMiddleware {
     };
   }
 
-  static async auth(req, res, next) {
+  static async auth(req: any, res: any, next: any) {
     try {
       const token =
         req.cookies?.accessToken ||
@@ -37,7 +37,7 @@ export class GlobalMiddleware {
 
       const decoded = await JWT.jwtVerify(
         token,
-        getEnvironmentsVariable().access_token_secrete,
+        env.access_token_secrete,
       );
       req.user = decoded;
       next();

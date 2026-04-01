@@ -1,28 +1,23 @@
 {
-    "compilerOptions": {
-      "target": "es6",
-      "module": "commonjs",
-      "outDir": "dist",
-      "sourceMap": false,
-      "declaration": true,
-      "lib": [
-        "es2017.object",
-        "es2015",
-        "es2017",
-        "dom"
-      ],
-       // ✅ Add these two lines
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
-    },
-    "files": [
-      "./node_modules/@types/node/index.d.ts"
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "rootDir": "src",
+    "outDir": "dist",
+    "lib": [
+      "ES2020"
     ],
-    "include": [
-      "src/**/*.ts",
-      "package.json"
-, "src/init/dummy.js"    ],
-    "exclude": [
-      "node_modules"
-    ]
-  }
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "sourceMap": false
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

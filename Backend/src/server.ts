@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
 import mongoose from "mongoose";
-import { getEnvironmentsVariable } from "./environments/environment";
+import { env } from "./environments/environment";
 import UserRouter from "./routers/UserRouter";
 import cookieParser from "cookie-parser";
 import ChatRouter from "./routers/ChatRouter";
@@ -43,7 +43,7 @@ export class Server {
 
   connectToDatabase() {
     mongoose
-      .connect(getEnvironmentsVariable().mongo_uri!)
+      .connect(env.mongo_uri)
       .then(() => console.log(`connected to db`))
       .catch((err) => console.log(err));
   }

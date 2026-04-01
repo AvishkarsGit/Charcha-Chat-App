@@ -3,7 +3,7 @@ import Message from "../models/Message";
 import User from "../models/User";
 
 export class MessageController {
-  static async sendMessage(req, res, next) {
+  static async sendMessage(req: any, res: any, next: any) {
     try {
       const { chatId, content } = req.body;
       if (!chatId || !content)
@@ -46,7 +46,7 @@ export class MessageController {
     }
   }
 
-  static async fetchAllMessages(req, res, next) {
+  static async fetchAllMessages(req: any, res: any, next: any) {
     try {
       const { chatId } = req.params || req.query;
       const messages = await Message.find({ chat: chatId })

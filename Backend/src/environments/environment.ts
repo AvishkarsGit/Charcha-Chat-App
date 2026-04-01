@@ -1,19 +1,16 @@
-import { DevEnvironment } from "./dev.environment";
-import { ProdEnvironment } from "./prod.environment";
-
-export interface Environment {
-  mongo_uri: string;
-  access_token_secrete: string;
-  refresh_token_secrete: string;
-  resend_email_api_key: string;
-  resend_from_email: string;
-  sendgrid_api: string;
-  sendgrid_sender_email: string;
+function requireEnv(key: string): string {
+  const value = process.env[key];
+  if (!value) {
+    throw new Error(`Environment variable ${key} is not defined`);
+  }
+  return value;
 }
 
-export function getEnvironmentsVariable() {
-  if (process.env.NODE_ENV === "production") {
-    return ProdEnvironment;
-  }
-  return DevEnvironment;
+
+export const env = {
+  mongo_uri: requireEnv('MONGO_URL'),
+  access_token_secrete: requireEnv('ACCESS_TOKEN_SECRETE'),
+  refresh_token_secrete: requireEnv('REFRESH_TOKEN_SECRETE'),
+  sendgrid_api: requireEnv('PROD_SENDGRID_API'),
+  sendgrid_sender_email: requireEnv('PROD_SENDGRID_SENDER_EMAIL'),
 }

@@ -1,6 +1,6 @@
 import Bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { getEnvironmentsVariable } from "../environments/environment";
+import { env } from "../environments/environment";
 export class JWT {
   static async encryptPassword(password: string) {
     const hashedPassword = await Bcrypt.hash(password, 10);
@@ -8,12 +8,12 @@ export class JWT {
   }
 
   static generateAccessToken(payload: any) {
-    return jwt.sign(payload, getEnvironmentsVariable().access_token_secrete!, {
+    return jwt.sign(payload, env.access_token_secrete, {
       expiresIn: "15m",
     });
   }
   static generateRefreshToken(payload: any) {
-    return jwt.sign(payload, getEnvironmentsVariable().refresh_token_secrete!, {
+    return jwt.sign(payload, env.refresh_token_secrete, {
       expiresIn: "10h",
     });
   }

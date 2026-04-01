@@ -2,11 +2,9 @@ import { UserInterface } from "../interfaces/UserInterface";
 import { JWT } from "../utils/JWT";
 import { Utility } from "../utils/Utility";
 import User from "../models/User";
-import { NodeMailer } from "../utils/NodeMailer";
-import { getEnvironmentsVariable } from "../environments/environment";
-import { compare } from "bcrypt";
+import { env } from "../environments/environment";
 export class UserController {
-  static async signup(req, res, next) {
+  static async signup(req: any, res: any, next: any) {
     try {
       const { name, email, password } = req.body;
       console.log(name, email, password);
@@ -56,7 +54,7 @@ export class UserController {
     }
   }
 
-  static async login(req, res, next) {
+  static async login(req: any, res: any, next: any) {
     try {
       const { email, password } = req.body;
       //check email is exists or not
@@ -111,7 +109,7 @@ export class UserController {
     }
   }
 
-  static async sendVerificationEmail(req, res, next) {
+  static async sendVerificationEmail(req: any, res: any, next: any) {
     try {
       const { email } = req.body;
 
@@ -142,12 +140,6 @@ export class UserController {
 
       if (!updated) throw new Error("Failed to send email");
 
-      await NodeMailer.sendEmail({
-        to: [email],
-        subject: "Authenticator app verification email",
-        html: `<h2>Hey! ${user.name}, your verification token : ${updated.verification_token} </h2>`,
-      });
-
       return res.json({
         success: true,
       });
@@ -156,7 +148,7 @@ export class UserController {
     }
   }
 
-  static async verifyEmail(req, res, next) {
+  static async verifyEmail(req: any, res: any, next: any) {
     try {
       const { email, otp } = req.body;
 
@@ -191,7 +183,7 @@ export class UserController {
     }
   }
 
-  static async getProfile(req, res, next) {
+  static async getProfile(req: any, res: any, next: any) {
     try {
       const { id } = req.user;
 
@@ -212,7 +204,7 @@ export class UserController {
     }
   }
 
-  static async refreshToken(req, res, next) {
+  static async refreshToken(req: any, res: any, next: any) {
     try {
       const token = req.cookies?.refreshToken;
 
@@ -222,7 +214,7 @@ export class UserController {
       //decode refresh token
       const decoded: any = await JWT.jwtVerify(
         token,
-        getEnvironmentsVariable().refresh_token_secrete,
+        env.refresh_token_secrete,
       );
 
       //check decoded is valid
@@ -258,7 +250,7 @@ export class UserController {
     }
   }
 
-  static async logout(req, res, next) {
+  static async logout(req: any, res: any, next: any) {
     try {
       const id = req.user.id;
 
@@ -283,7 +275,7 @@ export class UserController {
     }
   }
 
-  static async getMyData(req, res, next) {
+  static async getMyData(req: any, res: any, next: any) {
     try {
       const { id } = req.user;
       const user = await User.findOne({
@@ -301,7 +293,7 @@ export class UserController {
     }
   }
 
-  static async updateProfile(req, res, next) {
+  static async updateProfile(req: any, res: any, next: any) {
     try {
       const { id } = req.user;
       if (!id) throw new Error("id must be there");
@@ -328,7 +320,7 @@ export class UserController {
     }
   }
 
-  static async getUsers(req, res, next) {
+  static async getUsers(req: any, res: any, next: any) {
     try {
       const search = req.query.search;
 
@@ -340,7 +332,7 @@ export class UserController {
       }
 
       //escape special characters
-      const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const escapeRegex = (text: any) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
       const keyword = escapeRegex(search.trim());
 
